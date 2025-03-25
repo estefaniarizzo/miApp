@@ -6,8 +6,8 @@
 
 <ion-content>
   <form>
-    <ion-input [(ngModel)]="email" name="email" placeholder="Email"></ion-input>
-    <ion-input [(ngModel)]="password" name="password" type="password" placeholder="Contraseña"></ion-input>
-    <ion-button (click)="login()">Ingresar</ion-button>
+    <ion-input [(ngModel)]="email" name="email" placeholder="Correo electrónico" label="Correo electrónico"></ion-input>
+    <ion-input [(ngModel)]="password" name="password" type="password" placeholder="Contraseña" label="Contraseña"></ion-input>
+    <ion-button (click)="login()" expand="block">Ingresar</ion-button>
   </form>
 </ion-content>
