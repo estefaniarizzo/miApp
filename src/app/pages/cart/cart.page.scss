@@ -8,9 +8,22 @@ ion-header {
 }
 
 ion-title {
-  color: white;
+  color: rgb(15, 14, 14);
   font-weight: 700;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+ion-buttons ion-button {
+  --color: rgb(12, 12, 12);
+  --background: transparent;
+  --box-shadow: none;
+  --padding-start: 0;
+  --padding-end: 0;
+  margin-right: 1rem;
+}
+
+ion-buttons ion-icon {
+  font-size: 1.5rem;
 }
 
 ion-list {
