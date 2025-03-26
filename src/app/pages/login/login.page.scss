@@ -1,0 +1,57 @@
+ion-content {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+form {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  backdrop-filter: blur(10px);
+  margin: auto;
+}
+
+ion-input {
+  --background: rgba(255, 255, 255, 0.8);
+  --padding-start: 1.5rem;
+  --padding-end: 1.5rem;
+  --border-radius: 10px;
+  margin-bottom: 1.5rem;
+  --highlight-color-focused: #667eea;
+  height: 56px;
+  font-size: 1.1rem;
+}
+
+ion-button {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --border-radius: 10px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  height: 56px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+}
+
+ion-button:hover {
+  --background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+ion-title {
+  color: rgb(0, 0, 0);
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
