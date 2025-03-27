@@ -5,16 +5,54 @@
       <ion-button (click)="toggleTheme()">
         <ion-icon [name]="isDarkMode ? 'sunny' : 'moon'"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/cart">Carrito</ion-button>
+      <ion-button routerLink="/cart">
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
+      </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="searchProducts()" 
+      placeholder="Buscar productos..."
+      animated="true">
+    </ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="sortOrder" (ionChange)="sortProducts()">
+      <ion-segment-button value="default">
+        <ion-label>Por defecto</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="priceAsc">
+        <ion-label>Precio ↑</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="priceDesc">
+        <ion-label>Precio ↓</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let producto of productos">
-      <ion-label>{{ producto.title }}</ion-label>
-      <ion-button (click)="addToCart(producto)">Añadir</ion-button>
+    <ion-item *ngFor="let producto of filteredProducts" (click)="showProductDetails(producto)">
+      <ion-thumbnail slot="start">
+        <img [src]="producto.image || 'assets/default-product.png'" [alt]="producto.title">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ producto.title }}</h2>
+        <p>{{ producto.description }}</p>
+        <h3 class="price">{{ producto.price | currency:'USD' }}</h3>
+      </ion-label>
+      <ion-button slot="end" (click)="addToCart(producto); $event.stopPropagation()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más productos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
