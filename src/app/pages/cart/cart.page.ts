@@ -17,7 +17,12 @@ export class CartPage implements OnInit {
   constructor(private cartService: CartService) {}
 
   async ngOnInit() {
+    await this.loadCartItems();
+  }
+
+  async loadCartItems() {
     this.cartItems = await this.cartService.getCartItems();
+    console.log('Cart items loaded:', this.cartItems);
   }
 
   async clearCart() {
