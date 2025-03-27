@@ -1,5 +1,5 @@
 ion-content {
-  --background: #f5f7fa;
+  --background: var(--ion-background-color);
 }
 
 ion-header {
@@ -8,13 +8,13 @@ ion-header {
 }
 
 ion-title {
-  color: rgb(7, 6, 6);
+  color: white;
   font-weight: 700;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 ion-button {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
   --border-radius: 8px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-weight: 600;
@@ -28,7 +28,7 @@ ion-list {
 }
 
 ion-item {
-  --background: white;
+  --background: var(--ion-item-background);
   --border-radius: 12px;
   --padding-start: 1rem;
   --padding-end: 1rem;
@@ -44,14 +44,38 @@ ion-item:hover {
 ion-label {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #2d3748;
 }
 
 ion-button[routerLink="/cart"] {
   --background: rgba(255, 255, 255, 0.2);
-  --color: rgb(0, 0, 0);
+  --color: var(--ion-toolbar-color);
   --border-radius: 20px;
   --padding-start: 1.5rem;
   --padding-end: 1.5rem;
   font-size: 0.9rem;
+}
+
+// Estilos para modo oscuro
+.dark {
+  ion-content {
+    --background: #1a202c;
+  }
+
+  ion-item {
+    --background: #2d3748;
+    --border-color: #4a5568;
+  }
+
+  ion-label {
+    color: #f7fafc;
+  }
+
+  ion-button {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  ion-button[routerLink="/cart"] {
+    --background: rgba(255, 255, 255, 0.2);
+    --color: white;
+  }
 }

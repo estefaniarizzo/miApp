@@ -2,6 +2,9 @@
   <ion-toolbar>
     <ion-title>Productos</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="toggleTheme()">
+        <ion-icon [name]="isDarkMode ? 'sunny' : 'moon'"></ion-icon>
+      </ion-button>
       <ion-button routerLink="/cart">Carrito</ion-button>
     </ion-buttons>
   </ion-toolbar>
