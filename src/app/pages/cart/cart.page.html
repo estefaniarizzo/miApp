@@ -1,19 +1,67 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button routerLink="/home">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Carrito</ion-title>
+    <ion-title>Mi Carrito</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of cartItems">
-      <ion-label>{{ item.title }}</ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-button (click)="clearCart()">Vaciar Carrito</ion-button>
+  <ng-container *ngIf="cartItems.length > 0; else emptyCart">
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of cartItems">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="item.image" [alt]="item.title">
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.description }}</p>
+            <h3 class="price">{{ item.price * item.quantity | currency:'USD' }}</h3>
+          </ion-label>
+          <div class="quantity-controls">
+            <ion-button fill="clear" (click)="decreaseQuantity(item)">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </ion-button>
+            <span class="quantity">{{ item.quantity }}</span>
+            <ion-button fill="clear" (click)="increaseQuantity(item)">
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeFromCart(item)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <div class="cart-summary">
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Total</h2>
+        </ion-label>
+        <ion-note slot="end" color="primary">
+          <h2>{{ total | currency:'USD' }}</h2>
+        </ion-note>
+      </ion-item>
+      <ion-button expand="block" routerLink="/checkout" class="checkout-button">
+        Proceder al Pago
+        <ion-icon name="cart-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyCart>
+    <div class="empty-cart">
+      <ion-icon name="cart-outline" class="empty-cart-icon"></ion-icon>
+      <h2>Tu carrito está vacío</h2>
+      <p>¡Agrega algunos productos!</p>
+      <ion-button routerLink="/home" expand="block" fill="outline">
+        Ir a Comprar
+      </ion-button>
+    </div>
+  </ng-template>
 </ion-content>

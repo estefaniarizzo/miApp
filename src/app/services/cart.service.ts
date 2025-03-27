@@ -1,59 +1,57 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
+interface CartItem {
+  id: number;
+  title: string;
+  description?: string;
+  price: number;
+  image?: string;
+  quantity: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private _storage: Storage | null = null;
+  private readonly CART_KEY = 'cart_items';
 
   constructor(private storage: Storage) {
     this.init();
   }
 
   async init() {
-    this._storage = await this.storage.create();
-    console.log('Storage initialized');
+    const storage = await this.storage.create();
+    this._storage = storage;
   }
 
-  async addToCart(item: any) {
-    try {
-      if (!this._storage) {
-        await this.init();
-      }
-      const cartItems = await this._storage?.get('cart') || [];
-      cartItems.push(item);
-      await this._storage?.set('cart', cartItems);
-      console.log('Item added to cart:', item);
-      console.log('Current cart items:', cartItems);
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-    }
+  async getCartItems(): Promise<CartItem[]> {
+    if (!this._storage) await this.init();
+    const items = await this._storage?.get(this.CART_KEY) || [];
+    return items;
   }
 
-  async getCartItems() {
-    try {
-      if (!this._storage) {
-        await this.init();
-      }
-      const items = await this._storage?.get('cart') || [];
-      console.log('Retrieved cart items:', items);
-      return items;
-    } catch (error) {
-      console.error('Error getting cart items:', error);
-      return [];
+  async addToCart(product: CartItem) {
+    const items = await this.getCartItems();
+    const existingItem = items.find(item => item.id === product.id);
+
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + 1;
+    } else {
+      items.push({ ...product, quantity: 1 });
     }
+
+    await this._storage?.set(this.CART_KEY, items);
+  }
+
+  async updateCartItems(items: CartItem[]) {
+    if (!this._storage) await this.init();
+    await this._storage?.set(this.CART_KEY, items);
   }
 
   async clearCart() {
-    try {
-      if (!this._storage) {
-        await this.init();
-      }
-      await this._storage?.remove('cart');
-      console.log('Cart cleared');
-    } catch (error) {
-      console.error('Error clearing cart:', error);
-    }
+    if (!this._storage) await this.init();
+    await this._storage?.set(this.CART_KEY, []);
   }
 }

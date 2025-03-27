@@ -3,6 +3,16 @@ import { CartService } from '../../services/cart.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+
+interface CartItem {
+  id: number;
+  title: string;
+  description?: string;
+  price: number;
+  image?: string;
+  quantity: number;
+}
 
 @Component({
   selector: 'app-cart',
@@ -12,21 +22,67 @@ import { RouterModule } from '@angular/router';
   imports: [IonicModule, CommonModule, RouterModule]
 })
 export class CartPage implements OnInit {
-  cartItems: any[] = [];
+  cartItems: CartItem[] = [];
+  total: number = 0;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private toastController: ToastController
+  ) {}
 
-  async ngOnInit() {
-    await this.loadCartItems();
+  ngOnInit() {
+    this.loadCartItems();
   }
 
   async loadCartItems() {
-    this.cartItems = await this.cartService.getCartItems();
-    console.log('Cart items loaded:', this.cartItems);
+    const items = await this.cartService.getCartItems();
+    this.cartItems = items.map(item => ({
+      ...item,
+      quantity: item.quantity || 1
+    }));
+    this.calculateTotal();
   }
 
-  async clearCart() {
-    await this.cartService.clearCart();
-    this.cartItems = [];
+  async increaseQuantity(item: CartItem) {
+    item.quantity++;
+    await this.updateCart();
+  }
+
+  async decreaseQuantity(item: CartItem) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      await this.updateCart();
+    }
+  }
+
+  async removeFromCart(item: CartItem) {
+    this.cartItems = this.cartItems.filter(i => i.id !== item.id);
+    await this.updateCart();
+    this.presentToast('Producto eliminado del carrito');
+  }
+
+  private async updateCart() {
+    await this.cartService.updateCartItems(this.cartItems);
+    this.calculateTotal();
+  }
+
+  private calculateTotal() {
+    this.total = this.cartItems.reduce((sum, item) => 
+      sum + (item.price * item.quantity), 0);
+  }
+
+  async checkout() {
+    // Aquí iría la lógica de checkout
+    this.presentToast('Función de pago en desarrollo');
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'bottom',
+      color: 'primary'
+    });
+    toast.present();
   }
 }
