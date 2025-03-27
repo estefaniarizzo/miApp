@@ -78,3 +78,4 @@ Problemas con Firebase: Habilita Email/Password en Authentication
 Ionic Framework Docs
 
 Firebase Guide
+## Posdata: profesor hice sola el trabajo mis compañeros de grupo no hicieron nada me ignoraron asi que lo hice sola gracias por su atención 😀👍🏻
