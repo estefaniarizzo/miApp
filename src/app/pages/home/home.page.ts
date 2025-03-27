@@ -90,11 +90,9 @@ export class HomePage implements OnInit {
     switch (this.sortOrder) {
       case 'priceAsc':
         filtered.sort((a, b) => a.price - b.price);
-        this.presentToast('Productos ordenados por precio: menor a mayor');
         break;
       case 'priceDesc':
         filtered.sort((a, b) => b.price - a.price);
-        this.presentToast('Productos ordenados por precio: mayor a menor');
         break;
       default:
         filtered.sort((a, b) => a.id - b.id);
@@ -116,10 +114,11 @@ export class HomePage implements OnInit {
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: 'bottom',
-      color: 'success',
+      message: `<strong style="color: white; font-size: 16px;">${message}</strong>`,
+      duration: 2500,
+      position: 'top',
+      color: 'primary',
+      cssClass: 'custom-toast',
       buttons: [
         {
           icon: 'close',
