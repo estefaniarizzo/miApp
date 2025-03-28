@@ -53,7 +53,7 @@ export class HomePage implements OnInit {
   async loadProducts() {
     if (this.loading) return;
     this.loading = true;
-    
+
     try {
       const data = await this.apiService.getProductos().toPromise();
       this.productos = data || [];
@@ -80,7 +80,7 @@ export class HomePage implements OnInit {
     // Aplicar búsqueda
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter(product =>
         product.title.toLowerCase().includes(term) ||
         product.description?.toLowerCase().includes(term)
       );
@@ -104,7 +104,7 @@ export class HomePage implements OnInit {
   async addToCart(producto: any) {
     await this.cartService.addToCart(producto);
     this.updateCartItemCount();
-    this.presentToast('Producto añadido al carrito');
+    this.presentToast('Producto agregado');
   }
 
   async updateCartItemCount() {
@@ -114,7 +114,7 @@ export class HomePage implements OnInit {
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
-      message: `<strong style="color: white; font-size: 16px;">${message}</strong>`,
+      message: message,
       duration: 2500,
       position: 'top',
       color: 'primary',
@@ -140,7 +140,7 @@ export class HomePage implements OnInit {
       // Aquí simularemos cargar más productos
       // En una implementación real, cargarías la siguiente página de la API
       event.target.complete();
-      
+
       // Si no hay más productos para cargar
       if (this.filteredProducts.length >= 50) {
         event.target.disabled = true;
